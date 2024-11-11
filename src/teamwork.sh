@@ -143,7 +143,7 @@ teamwork::pull_request_opened() {
   local -r user=$(github::get_sender_user)
   local -r pr_stats=$(github::get_pr_patch_stats)
   local -r pr_body=$(github::get_pr_body)
-  IFS=" " read -r -a pr_stats_array <<< "$pr_stats"
+  # IFS=" " read -r -a pr_stats_array <<< "$pr_stats"
 # TODO: extract actual PR comments from body, exclude Author and Reviewer checklist from PR template
 
   teamwork::add_comment "
