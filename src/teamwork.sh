@@ -233,4 +233,8 @@ fi
 teamwork::pull_request_review_dismissed() {
   local -r user=$(github::get_sender_user)
   teamwork::add_comment "Review dismissed by $user"
+  teamwork::remove_tag "PR Open"
+  teamwork::remove_tag "PR Approved"
+  teamwork::remove_tag "Changes Requested"
+  teamwork::move_task_to_column "$BOARD_COLUMN_CLOSED"
 }
