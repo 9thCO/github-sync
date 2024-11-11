@@ -195,7 +195,7 @@ teamwork::pull_request_review_submitted() {
   local -r review_state=$(github::get_review_state)
   local -r comment=$(github::get_review_comment)
 
-  ## Message when PR has been approved
+  ## Message when PR has been approved, don't include body message
   if [ "$review_state" == "approved" ]; then
     teamwork::add_comment "
 **$user** submitted a review to the PR: **[$pr_title]($pr_url)**
@@ -203,25 +203,20 @@ teamwork::pull_request_review_submitted() {
 ---
 
 Review: **$review_state ✅**"
-if [ -n "$comment" ]; then
-  teamwork::add_comment "Comment: $comment"
-fi
     teamwork::add_tag "PR Approved"
     teamwork::remove_tag "PR Changes Requested"
     teamwork::move_task_to_column "$BOARD_COLUMN_REVIEWED"
   fi
 
-  ## Add a message if the PR has change requested
+  ## Add a message if the PR has change requested, include body message
   if [ "$review_state" == "changes_requested" ]; then
     teamwork::add_comment "
 **$user** submitted a change request to the PR: **[$pr_title]($pr_url)**
 
 ---
 
-Review: **$review_state 😔**"
-if [ -n "$comment" ]; then
-  teamwork::add_comment "Comment: $comment"
-fi
+Review: **$review_state 😔**
+Comment: $comment"
 
     teamwork::add_tag "PR Changes Requested"
     teamwork::remove_tag "PR Approved"
@@ -232,8 +227,10 @@ fi
 teamwork::pull_request_review_dismissed() {
   local -r user=$(github::get_sender_user)
   teamwork::add_comment "Review dismissed by $user"
-  if [ -n "$comment" ]; then
-  teamwork::add_comment "Comment: $comment"
+  if [ -z "$comment" ]; then
+    true
+  else 
+    teamwork::add_comment "Comment: $comment"
   fi
   teamwork::remove_tag "PR Open"
   teamwork::remove_tag "PR Approved"
