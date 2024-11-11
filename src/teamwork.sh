@@ -203,7 +203,7 @@ teamwork::pull_request_review_submitted() {
 ---
 
 Review: **$review_state ✅**
-if [ -z "${VAR}" ]; then
+if [ -z $comment ]; then
   Comment: $comment
 fi
 "
@@ -220,7 +220,7 @@ fi
 ---
 
 Review: **$review_state 😔**
-if [ -z "${VAR}" ]; then
+if [ -z $comment ]; then
   Comment: $comment
 fi
 "
