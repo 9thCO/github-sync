@@ -203,7 +203,7 @@ teamwork::pull_request_review_submitted() {
 ---
 
 Review: **$review_state ✅**"
-if [ -z "$comment" ]; then
+if [ ! -z "$comment" ]; then
   teamwork::add_comment "Comment: $comment"
 fi
     teamwork::add_tag "PR Approved"
@@ -219,7 +219,7 @@ fi
 ---
 
 Review: **$review_state 😔**"
-if [ -z "$comment" ]; then
+if [ ! -z "$comment" ]; then
   teamwork::add_comment "Comment: $comment"
 fi
 
@@ -232,7 +232,7 @@ fi
 teamwork::pull_request_review_dismissed() {
   local -r user=$(github::get_sender_user)
   teamwork::add_comment "Review dismissed by $user"
-  if [ -z "$comment" ]; then
+  if [ ! -z "$comment" ]; then
   teamwork::add_comment "Comment: $comment"
   fi
   teamwork::remove_tag "PR Open"
