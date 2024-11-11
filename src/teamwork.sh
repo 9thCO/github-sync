@@ -202,11 +202,10 @@ teamwork::pull_request_review_submitted() {
 
 ---
 
-Review: **$review_state ✅**
+Review: **$review_state ✅**"
 if [ -z $comment ]; then
-  Comment: $comment
+  teamwork::add_comment "Comment: $comment"
 fi
-"
     teamwork::add_tag "PR Approved"
     teamwork::remove_tag "PR Changes Requested"
     teamwork::move_task_to_column "$BOARD_COLUMN_REVIEWED"
@@ -219,11 +218,11 @@ fi
 
 ---
 
-Review: **$review_state 😔**
+Review: **$review_state 😔**"
 if [ -z $comment ]; then
-  Comment: $comment
+  teamwork::add_comment "Comment: $comment"
 fi
-"
+
     teamwork::add_tag "PR Changes Requested"
     teamwork::remove_tag "PR Approved"
     teamwork::move_task_to_column "$BOARD_COLUMN_REVIEWED"
@@ -232,13 +231,10 @@ fi
 
 teamwork::pull_request_review_dismissed() {
   local -r user=$(github::get_sender_user)
-  teamwork::add_comment "Review dismissed by $user
-  
+  teamwork::add_comment "Review dismissed by $user"
   if [ -z $comment ]; then
-  ---
-  Comment: $comment
+  teamwork::add_comment "Comment: $comment"
   fi
-  "
   teamwork::remove_tag "PR Open"
   teamwork::remove_tag "PR Approved"
   teamwork::remove_tag "Changes Requested"
