@@ -151,8 +151,6 @@ teamwork::pull_request_opened() {
 **$user** opened a PR: **[$pr_title]($pr_url)**
 \`$base_ref\` ⬅️ \`$head_ref\`
 
----
-
 ${extracted_body}
   "
 
@@ -201,8 +199,6 @@ teamwork::pull_request_review_submitted() {
     teamwork::add_comment "
 **$user** submitted a review to the PR: **[$pr_title]($pr_url)**
 
----
-
 Review: **$review_state ✅**"
     teamwork::add_tag "PR Approved"
     teamwork::remove_tag "PR Changes Requested"
@@ -213,8 +209,6 @@ Review: **$review_state ✅**"
   if [ "$review_state" == "changes_requested" ]; then
     teamwork::add_comment "
 **$user** submitted a change request to the PR: **[$pr_title]($pr_url)**
-
----
 
 Review: **$review_state 😔**
 Comment: $comment"
