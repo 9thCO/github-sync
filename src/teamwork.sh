@@ -210,7 +210,7 @@ Review: **$review_state ✅**"
     teamwork::add_comment "
 **$user** submitted a change request to the PR: **[$pr_title]($pr_url)**
 
-Review: **$review_state 😔**
+Review: **$review_state**
 Comment: $comment"
 
     teamwork::add_tag "PR Changes Requested"
